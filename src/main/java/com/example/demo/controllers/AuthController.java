@@ -31,7 +31,7 @@ import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = {"http://localhost:4200", "http://10.11.1.12:4200"})
+@CrossOrigin(origins = {"http://localhost:4200", "http://10.11.2.12:4200"})
 public class AuthController {
 	@Autowired
 	private UserRepo userRepo;
@@ -48,10 +48,10 @@ public class AuthController {
 		user.setPassword(encodedPass);
 		Optional<User> tempo = userRepo.findByUsername(user.getUsername());
 		if (tempo.isPresent())
-			return ResponseEntity.status(HttpStatus.CONFLICT).body(Collections.singletonMap("jwt-token", "already exist"));
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(Collections.singletonMap("Token", "already exist"));
 		user = userRepo.save(user);
 		String token = jwtUtil.generateToken(user.getUsername());
-		return ResponseEntity.status(HttpStatus.OK).body(Collections.singletonMap("jwt-token", token));
+		return ResponseEntity.status(HttpStatus.OK).body(Collections.singletonMap("Token", token));
 	}
 
 	@PostMapping("/login")
